@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IVR Advertising Platform</title>
+
+    <!-- Global stylesheets -->
+    <link href="../../../static/fonts/fonts.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../../../static/css/datepicker.css">
+    <link rel="stylesheet" href="../../../static/css/timepicker.css">
+    <link href="../../../static/css/core.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/components.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/colors.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/ionicons/css/ionicons.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+</head>
+
+<body>
+
+<!-- Main navbar -->
+<div class="navbar navbar-inverse bg-green">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ path_for('index') }}">IVR Advertising Platform </a>
+
+        <ul class="nav navbar-nav visible-xs-block">
+            <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"> </i></a></li>
+            <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav">
+            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+        <div class="navbar-right">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged In as <strong>{{ user.username| title }}</strong>&nbsp;&nbsp;&nbsp;
+                        <i class="icon-person"></i>
+                        <span class="visible-xs-inline-block position-right">Messages</span>
+                        <span class="note-icon-caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-content width-50">
+                        <ul class="dropdown-content-body">
+                            <ol>
+                                <a href="{{ path_for('logout') }}" class="media-heading">
+                                    <i class="icon-close2"></i>&nbsp;&nbsp;
+                                    <span class="text-muted">Sign Out</span>
+                                </a>
+                            </ol>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /main navbar -->
+
+
+<!-- Page container -->
+<div class="page-container">
+
+    <!-- Page content -->
+    <div class="page-content">
+
+        <!-- Main sidebar -->
+        <div class="sidebar sidebar-main sidebar-default">
+            <div class="sidebar-content">
+                <!-- Main navigation -->
+                <div class="sidebar-category sidebar-category-visible">
+                    <div class="category-content no-padding">
+                        <ul class="navigation navigation-main navigation-accordion">
+
+                            <!-- SIDEBAR USERPIC -->
+                            <div class="profile-userpic">
+                                <img src="/images/eti_logo.jpg" class="img-responsive" alt="">
+                            </div>
+                            <!-- SIDEBAR BUTTONS -->
+                            <div class="profile-userbuttons">
+                                <a href="{{ path_for('upload') }}"><button type="button" class="btn btn-success btn-sm"><span style="font-size:smaller;">Upload</span></button></a>
+                                <a href="{{ path_for('create_campaign') }}"><button type="button" class="btn btn-primary btn-sm"><span style="font-size:smaller;">Campaign</span></button></a>
+                            </div>
+
+                            <!-- Main -->
+                            <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
+                            <li class="active"><a href="{{ path_for('index') }}"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+                            {% if user.is_admin %}
+                                <li>
+                                    <a href="{{ path_for('accounts') }}"><i class="icon-users"></i>
+                                        <span>Accounts</span></a>
+                                    <ul>
+                                        <li><a href="{{ path_for('create_account') }}">Create Account </a></li>
+                                        <li><a href="{{ path_for('accounts') }}">View Accounts</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a href="{{ path_for('campaigns') }}"><i class="icon-stack2"></i> <span>Campaigns</span></a>
+                                <ul>
+                                    <li><a href="{{ path_for('create_campaign') }}">Create Campaign </a></li>
+                                    <li><a href="{{ path_for('campaigns') }}">View Campaigns</a> </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon-copy"></i> <span>File Manager</span></a>
+                                <ul>
+                                    <li><a href="{{ path_for('upload') }}">Upload Files</a></li>
+                                    <li><a href="{{ path_for('files') }}">View Files</a></li>
+
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{{ path_for('reports') }}"><i class="icon-stack"></i> <span>Reports</span></a>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /main navigation -->
+
+            </div>
+        </div>
+        <!-- /main sidebar -->
+
+
+        <!-- Main content -->
+        <div class="content-wrapper">
+
+            <!-- Page header -->
+            <div class="page-header page-header-default">
+                <div class="page-header-content">
+                    <div class="page-title">
+                        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Settings</span></h4>
+                    </div>
+
+                </div>
+
+                <div class="breadcrumb-line">
+                    <ul class="breadcrumb">
+                        <li><a href="{{ path_for('index') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                        {#<li class><a href="{{ path_for('settings') }}">Settings</a></li>#}
+                        <li class="active">Settings</li>
+                    </ul>
+
+                    <ul class="breadcrumb-elements">
+                        {#<li><a href=""><i class="icon-comment-discussion position-left"></i> Support</a></li>#}
+                        <li><a href="{{ path_for('settings') }}"><i class="icon-gear position-left"></i> Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /page header -->
+
+            <!-- Content area -->
+            <div class="content">
+
+                <!-- Form horizontal -->
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <form class="form-horizontal" action="{{ path_for('settings') }}" method="post">
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Advert Limit/Call</strong></label>
+                                    <div class="col-lg-2">
+                                        <span style="color: red;">{{ error }}</span>
+                                        <input type="number" min="1" max="9" maxlength="1" name="advert_limit" id="advert_limit" class="form-control" placeholder="Enter Advert Limit/Call here" value="{{ setting.advert_limit }}" required>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Incorrect Prompt</strong></label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="incorrect_path" name="incorrect_path" required>
+                                            {% for file in files  %}
+                                                <option value="{{ file.file_path }}" {% if setting.incorrect_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select No Selection Prompt</strong></label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="no_selection_path" name="no_selection_path" required>
+                                            {% for file in files  %}
+                                                <option value="{{ file.file_path }}" {% if setting.no_selection_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Listen Again Prompt</strong></label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="repeat_path" name="repeat_path" required>
+                                            {% for file in files  %}
+                                                <option value="{{ file.file_path }}" {% if setting.repeat_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            {#<fieldset class="content-group">#}
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-lg-2"><strong>Select No Selection Confirm Subscription Prompt</strong></label>#}
+                                    {#<div class="col-lg-10">#}
+                                        {#<select class="form-control" id="no_selection_confirm_subscription_path" name="no_selection_confirm_subscription_path" required>#}
+                                            {#{% for file in files  %}#}
+                                                {#<option value="{{ file.file_path }}" {% if setting.no_selection_confirm_subscription_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>#}
+                                            {#{% endfor %}#}
+                                        {#</select>#}
+                                    {#</div>#}
+                                {#</div>#}
+                            {#</fieldset>#}
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Subscription Successful Prompt</strong></label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="success_path" name="success_path" required>
+                                            {% for file in files  %}
+                                                <option value="{{ file.file_path }}" {% if setting.success_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Goodbye Prompt</strong></label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="goodbye_path" name="goodbye_path" required>
+                                            {% for file in files  %}
+                                                <option value="{{ file.file_path }}" {% if setting.goodbye_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Subscription Prompt</strong></label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="subscription_path" name="subscription_path" required>
+                                            {% for file in files  %}
+                                                <option value="{{ file.file_path }}" {% if setting.subscription_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Subscription Confirmation Prompt</strong></label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="subscription_confirmation_path" name="subscription_confirmation_path" required>
+                                            {% for file in files  %}
+                                                <option value="{{ file.file_path }}" {% if setting.subscription_confirmation_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Wrong Selection Prompt</strong></label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="wrong_selection_path" name="wrong_selection_path" required>
+                                            {% for file in files  %}
+                                                <option value="{{ file.file_path }}" {% if setting.wrong_selection_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Already Subscribed Prompt</strong></label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="already_subscribed_path" name="already_subscribed_path" required>
+                                            {% for file in files  %}
+                                                <option value="{{ file.file_path }}" {% if setting.already_subscribed_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Insufficient Balance Prompt</strong></label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="insufficient_balance_path" name="insufficient_balance_path" required>
+                                            {% for file in files  %}
+                                                <option value="{{ file.file_path }}" {% if setting.insufficient_balance_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Subscription Failure Prompt</strong></label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="subscription_failure_path" name="subscription_failure_path" required>
+                                            {% for file in files  %}
+                                                <option value="{{ file.file_path }}" {% if setting.subscription_failure_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Continue Listening Prompt</strong></label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="continue_path" name="continue_path" required>
+                                            {% for file in files  %}
+                                                <option value="{{ file.file_path }}" {% if setting.continue_path == file.file_path %}selected{% endif %}>{{ file.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /form horizontal -->
+
+                <!-- Footer -->
+                <div class="footer text-muted">
+                    &copy;copyright TM30.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Core JS files -->
+<script type="text/javascript" src="../../../static/js/plugins/loaders/pace.min.js"></script>
+<script type="text/javascript" src="../../../static/js/core/libraries/jquery.min.js"></script>
+<script type="text/javascript" src="../../../static/js/core/libraries/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../../static/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+
+<script src="../../../static/js/angular.min.js"></script>
+{#<script src="../../../node_modules/angular-audio/app/angular.audio.js"></script>#}
+<script src="../../../bower_components/ngWebAudio/src/ngWebAudio.js"></script>
+<script src="../../../static/js/application.js"></script>
+
+<!-- Theme JS files -->
+<script type="text/javascript" src="../../../static/js/plugins/forms/styling/uniform.min.js"></script>
+<script type="text/javascript" src="../../../static/js/core/app.js"></script>
+<script type="text/javascript" src="../../../static/js/pages/form_inputs.js"></script>
+<script type="text/javascript" src="../../../static/js/plugins/ui/ripple.min.js"></script>
+<script src="../../../static/js/bootstrap-datepicker.js"></script>
+<script src="../../../static/js/bootstrap-timepicker.js"></script>
+<script>
+    // When the document is ready
+    $(document).ready(function () {
+
+        $('#start_date').datepicker({
+            format: "dd/mm/yyyy"
+        });
+
+        $('#end_date').datepicker({
+            format: "dd/mm/yyyy"
+        });
+
+        $('#scheduled_time').timepicker();
+
+    });
+</script>
+</body>
+
+</html>

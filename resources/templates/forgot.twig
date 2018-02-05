@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Forgot Password | IVR - Marketing/Advertising Platform</title>
+
+    <!-- Global stylesheets -->
+    <link href="../../static/fonts/fonts.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/core.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/components.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/colors.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+
+    <!-- Core JS files -->
+    <script type="text/javascript" src="../../static/js/plugins/loaders/pace.min.js"></script>
+    <script type="text/javascript" src="../../static/js/core/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/js/core/libraries/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/loaders/blockui.min.js"></script>
+    <!-- /core JS files -->
+
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="../../static/js/plugins/forms/styling/uniform.min.js"></script>
+
+    <script type="text/javascript" src="../../static/js/core/app.js"></script>
+    <script type="text/javascript" src="../../static/js/pages/login.js"></script>
+
+    <script type="text/javascript" src="../../static/js/plugins/ui/ripple.min.js"></script>
+    <!-- /theme JS files -->
+
+</head>
+
+<body class="login-container">
+
+<!-- Page container -->
+<div class="page-container">
+
+    <!-- Page content -->
+    <div class="page-content">
+
+        <!-- Main content -->
+        <div class="content-wrapper">
+
+            <!-- Content area -->
+            <div class="content">
+
+                <!-- Advanced login -->
+                <form action="{{ path_for('forgot') }}" method="post">
+                    <div class="login-form">
+                        <div class="text-center">
+                            <div class="icon-object border-success-400 text-warning-400"><i class="icon-lock" style="color: green"></i></div>
+                            <h5 class="content-group-lg">Reset Password <small class="display-block">Enter your credentials</small></h5>
+                            <span style="color: red">{{ error }}</span>
+                        </div>
+
+                        <div class="form-group has-feedback has-feedback-left">
+                            <label><strong>Username</strong></label>
+                            <input type="text" class="form-control input-lg" placeholder="Username" name="username" id="username" value="{{ old.username }}" required>
+                            <div class="form-control-feedback">
+                                <i class="icon-user text-muted"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback has-feedback-left">
+                            <label><strong>Current Password</strong></label>
+                            <input type="password" class="form-control input-lg" placeholder="Enter Current Password" name="current_password" id="current_password" value="{{ old.current_password }}" required>
+                            <div class="form-control-feedback">
+                                <i class="icon-lock2 text-muted"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback has-feedback-left">
+                            <label><strong>New Password</strong></label>
+                            <input type="password" class="form-control input-lg" placeholder="Enter New Password" name="new_password" id="new_password" value="{{ old.new_password }}" required>
+                            <div class="form-control-feedback">
+                                <i class="icon-lock2 text-muted"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback has-feedback-left">
+                            <label><strong>Repeat Password</strong></label>
+                            <input type="password" class="form-control input-lg" placeholder="Repeat New Password" name="repeat_password" id="repeat_password" value="{{ old.repeat_password }}" required>
+                            <div class="form-control-feedback">
+                                <i class="icon-lock2 text-muted"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn bg-green-400 btn-block btn-lg">Reset <i class="icon-arrow-right14 position-right"></i></button>
+                        </div>
+                    </div>
+                </form>
+                <!-- /advanced login -->
+
+            </div>
+            <!-- /content area -->
+
+        </div>
+        <!-- /main content -->
+
+    </div>
+    <!-- /page content -->
+
+</div>
+<!-- /page container -->
+
+</body>
+
+</html>

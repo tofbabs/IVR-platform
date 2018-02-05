@@ -1,0 +1,184 @@
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IVR Advertising Platform</title>
+
+    <!-- Global stylesheets -->
+    <link href="../../static/fonts/fonts.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/core.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/components.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/colors.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+
+    <!-- Core JS files -->
+    <script type="text/javascript" src="../../static/js/plugins/loaders/pace.min.js"></script>
+    <script type="text/javascript" src="../../static/js/core/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/js/core/libraries/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/loaders/blockui.min.js"></script>
+    <!-- /core JS files -->
+
+    <script src="../../static/js/angular.min.js"></script>
+    <script src="../../static/js/angular-animate.min.js"></script>
+    <script src="../../static/js/angular-aria.min.js"></script>
+    <script src="../../static/js/angular-messages.min.js"></script>
+    <script src="../../static/js/angular-material.min.js"></script>
+    <script src="../../bower_components/ngWebAudio/src/ngWebAudio.js"></script>
+    <script src="../../static/js/application.js"></script>
+
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="../../static/js/plugins/visualization/d3/d3.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/visualization/d3/d3_tooltip.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/forms/styling/switchery.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/forms/styling/uniform.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/ui/moment/moment.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/pickers/daterangepicker.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/ui/nicescroll.min.js"></script>
+
+    <script type="text/javascript" src="../../static/js/core/app.js"></script>
+    <script type="text/javascript" src="../../static/js/pages/dashboard.js"></script>
+    <script type="text/javascript" src="../../static/js/pages/layout_fixed_custom.js"></script>
+    <script type="text/javascript" src="../../static/js/pages/datatables_basic.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/tables/datatables/datatables.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/forms/selects/select2.min.js"></script>
+
+    <script type="text/javascript" src="../../static/js/plugins/ui/ripple.min.js"></script>
+    <!-- /theme JS files -->
+
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="../../static/js/plugins/uploaders/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/uploaders/plupload/plupload.queue.min.js"></script>
+    <script type="text/javascript" src="../../static/js/pages/uploader_plupload.js"></script>
+
+</head>
+
+<body ng-app="mainApp">
+
+<!-- Main navbar -->
+<div class="navbar navbar-inverse bg-green">
+    <div class="navbar-header" style="background-color: #7ba53f;">
+        <a class="navbar-brand" href="{{ path_for('index') }}">IVR Advertising Platform </a>
+
+        <ul class="nav navbar-nav visible-xs-block">
+            <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"> </i></a></li>
+            <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav">
+            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+        <div class="navbar-right">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged In as <strong>{{ user.username| title }}</strong>&nbsp;&nbsp;&nbsp;
+                        <i class="icon-person"></i>
+                        <span class="visible-xs-inline-block position-right">Messages</span>
+                        <span class="note-icon-caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-content width-50">
+                        <ul class="dropdown-content-body">
+                            <ol>
+                                <a href="{{ path_for('logout') }}" class="media-heading">
+                                    <i class="icon-close2"></i>&nbsp;&nbsp;
+                                    <span class="text-muted">Sign Out</span>
+                                </a>
+                            </ol>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /main navbar -->
+
+
+<!-- Page container -->
+<div class="page-container">
+
+    <!-- Page content -->
+    <div class="page-content">
+
+        <!-- Main sidebar -->
+        <div class="sidebar sidebar-main sidebar-default">
+            <div class="sidebar-content">
+                <!-- Main navigation -->
+                <div class="sidebar-category sidebar-category-visible">
+                    <div class="category-content no-padding">
+                        <ul class="navigation navigation-main navigation-accordion">
+
+                            <!-- Main -->
+                            <!-- SIDEBAR USERPIC -->
+                            <div class="profile-userpic">
+                                <img src="/images/eti_logo.jpg" class="img-responsive" alt="">
+                            </div>
+                            <!-- SIDEBAR BUTTONS -->
+                            <div class="profile-userbuttons">
+                                <a href="{{ path_for('upload') }}"><button type="button" class="btn btn-success btn-sm"><span style="font-size:smaller;">Upload</span></button></a>
+                                <a href="{{ path_for('create_campaign') }}"><button type="button" class="btn btn-primary btn-sm"><span style="font-size:smaller;">Campaign</span></button></a>
+                            </div>
+                            <!-- END SIDEBAR BUTTONS -->
+
+
+                            <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
+                            <li class="active"><a href="index.html"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+                            {% if user.is_admin %}
+                                <li>
+                                    <a href="{{ path_for('accounts') }}"><i class="icon-users"></i>
+                                        <span>Accounts</span></a>
+                                    <ul>
+                                        <li><a href="{{ path_for('create_account') }}">Create Account </a></li>
+                                        <li><a href="{{ path_for('accounts') }}">View Accounts</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a href="{{ path_for('campaigns') }}"><i class="icon-stack2"></i> <span>Campaigns</span></a>
+                                <ul>
+                                    <li><a href="{{ path_for('create_campaign') }}">Create Campaign </a></li>
+                                    <li><a href="{{ path_for('campaigns') }}">View Campaigns</a> </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon-copy"></i> <span>File Manager</span></a>
+                                <ul>
+                                    <li><a href="{{ path_for('upload') }}">Upload Files</a></li>
+                                    <li><a href="{{ path_for('files') }}">View Files</a></li>
+
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{{ path_for('reports') }}"><i class="icon-stack"></i> <span>Reports</span></a>
+
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- /main navigation -->
+
+            </div>
+        </div>
+        <!-- /main sidebar -->
+
+        <!-- Main content -->
+        {% block content %}
+        {% endblock %}
+        <!-- /main content -->
+
+    </div>
+    <!-- /page content -->
+
+</div>
+<!-- /page container -->
+
+</body>
+</html>

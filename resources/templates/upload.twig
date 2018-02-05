@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from demo.interface.club/limitless/layout_1/LTR/material/uploader_plupload.html by HTTrack Website Copier/3.x [XR&CO'2013], Mon, 19 Sep 2016 09:11:42 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IVR Marketing Platform</title>
+
+    <!-- Global stylesheets -->
+    <link href="../../static/fonts/fonts.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/core.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/components.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/colors.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+
+    <!-- Core JS files -->
+    <script type="text/javascript" src="../../static/js/plugins/loaders/pace.min.js"></script>
+    <script type="text/javascript" src="../../static/js/core/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/js/core/libraries/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/loaders/blockui.min.js"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="../../static/js/plugins/uploaders/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/uploaders/plupload/plupload.queue.min.js"></script>
+    <script type="text/javascript" src="../../static/js/core/app.js"></script>
+    <script type="text/javascript" src="../../static/js/pages/uploader_plupload.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/ui/ripple.min.js"></script>
+    <!-- /theme JS files -->
+
+    <script src="../../static/js/angular.min.js"></script>
+    {#<script src="../../node_modules/angular-audio/app/angular.audio.js"></script>#}
+    <script src="../../bower_components/ngWebAudio/src/ngWebAudio.js"></script>
+    <script src="../../static/js/application.js"></script>
+
+</head>
+
+<body ng-app="mainApp">
+
+<!-- Main navbar -->
+<div class="navbar navbar-inverse bg-green">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ path_for('index') }}">IVR Marketing Platform</a>
+
+        <ul class="nav navbar-nav visible-xs-block">
+            <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav">
+            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a>
+            </li>
+        </ul>
+        <div class="navbar-right">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged In as <strong>{{ user.username| title }}</strong>&nbsp;&nbsp;&nbsp;
+                        <i class="icon-person"></i>
+                        <span class="note-icon-caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-content width-50">
+                        <ul class="dropdown-content-body">
+                            <ol>
+                                <a href="{{ path_for('logout') }}" class="media-heading">
+                                    <i class="icon-close2"></i>&nbsp;&nbsp;
+                                    <span class="text-muted">Sign Out</span>
+                                </a>
+                            </ol>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /main navbar -->
+
+
+<!-- Page container -->
+<div class="page-container" ng-controller="UploadController">
+
+    <!-- Page content -->
+    <div class="page-content">
+
+        <!-- Main sidebar -->
+        <div class="sidebar sidebar-main sidebar-default">
+            <div class="sidebar-content">
+                <!-- Main navigation -->
+                <div class="sidebar-category sidebar-category-visible">
+                    <div class="category-content no-padding">
+                        <ul class="navigation navigation-main navigation-accordion">
+
+                            <!-- SIDEBAR USERPIC -->
+                            <div class="profile-userpic">
+                                <img src="/images/eti_logo.jpg" class="img-responsive" alt="">
+                            </div>
+                            <!-- SIDEBAR BUTTONS -->
+                            <div class="profile-userbuttons">
+                                <a href="{{ path_for('upload') }}"><button type="button" class="btn btn-success btn-sm"><span style="font-size:smaller;">Upload</span></button></a>
+                                <a href="{{ path_for('create_campaign') }}"><button type="button" class="btn btn-primary btn-sm"><span style="font-size:smaller;">Campaign</span></button></a>
+                            </div>
+
+                            <!-- Main -->
+                            <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i>
+                            </li>
+                            <li class="active"><a href="{{ path_for('index') }}"><i class="icon-home4"></i> <span>Dashboard</span></a>
+                            </li>
+                            {% if user.is_admin %}
+                                <li>
+                                    <a href="{{ path_for('accounts') }}"><i class="icon-users"></i>
+                                        <span>Accounts</span></a>
+                                    <ul>
+                                        <li><a href="{{ path_for('create_account') }}">Create Account </a></li>
+                                        <li><a href="{{ path_for('accounts') }}">View Accounts</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a href="{{ path_for('campaigns') }}"><i class="icon-stack2"></i> <span>Campaigns</span></a>
+                                <ul>
+                                    <li><a href="{{ path_for('create_campaign') }}">Create Campaigns </a></li>
+                                    <li><a href="{{ path_for('campaigns') }}">View Campaigns</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{{ path_for('files') }}"><i class="icon-copy"></i>
+                                    <span>File Manager</span></a>
+                                <ul>
+                                    <li><a href="{{ path_for('upload') }}">Upload Files</a></li>
+                                    <li><a href="{{ path_for('files') }}">View Files</a></li>
+
+                                </ul>
+                            </li>
+                            {#<li>#}
+                            {#<a href="#"><i class="icon-droplet2"></i> <span>Mailing Lists</span></a>#}
+                            {#<ul>#}
+                            {#<li><a href="datatable_api.html">View Lists</a></li>#}
+                            {#<li><a href="colors_danger.html">Create Lists</a></li>#}
+
+                            {#</ul>#}
+                            {#</li>#}
+                            <li>
+                                <a href="{{ path_for('reports') }}"><i class="icon-stack"></i> <span>Reports</span></a>
+
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- /main navigation -->
+
+            </div>
+        </div>
+        <!-- /main sidebar -->
+
+        <!-- Main content -->
+        <div class="content-wrapper">
+
+            <!-- Page header -->
+            <div class="page-header page-header-default">
+                <div class="page-header-content">
+                    <div class="page-title">
+                        <h4><i class="icon-arrow-left52 position-left"></i> <span
+                                    class="text-semibold">File Manager</span></h4>
+                    </div>
+                </div>
+
+                <div class="breadcrumb-line">
+                    <ul class="breadcrumb">
+                        <li><a href="{{ path_for('index') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                        <li><a href="{{ path_for('files') }}">File Manager</a></li>
+                        <li class="active">Upload Files</li>
+                    </ul>
+
+                    <ul class="breadcrumb-elements">
+                        {% if user.is_admin %}
+                            <li><a href="{{ path_for('settings') }}"><i class="icon-gear position-left"></i> Settings</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <!-- /page header -->
+
+
+            <!-- Content area -->
+            <div class="content">
+
+                <!-- All runtimes -->
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <legend class="text-bold"><h5 class="panel-title">Upload Campaign Audio Files</h5></legend>
+                    </div>
+                    <div class="panel-body">
+                        <p class="content-group">Upload audio advert files to be used for different campaigns</p>
+                        <span style="color: red;">{{ error }}</span>
+                        <span style="color: green;">{{ message }}</span>
+                        <form class="form-horizontal" action="{{ path_for('upload') }}" method="post" enctype="multipart/form-data">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Name</strong></label>
+                                    <div class="col-lg-4">
+                                        <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name here" value="{{ old.name }}" required>
+                                    </div>
+                                    <span class="col-sm-1"></span>
+                                    <label class="control-label col-lg-1"><strong>Tag</strong></label>
+                                    <div class="col-lg-4">
+                                        <select name="tag" class="form-control" id="tag">
+                                            <option value="advert">Advert File</option>
+                                            <option value="prompt">Prompt File</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Description</strong></label>
+                                    <div class="col-lg-10">
+                                        <textarea rows="5" cols="5" class="form-control" placeholder="Enter description here" name="description" id="description" required></textarea>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>File</strong></label>
+                                    <div class="col-lg-10">
+                                        <input type="file" name="advert"  class="form-control" accept="audio/*" required>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success">Upload <i class="icon-arrow-right14 position-right"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer text-muted">
+                    &copy; {{ year }}.
+                </div>
+                <!-- /footer -->
+
+            </div>
+            <!-- /content area -->
+
+        </div>
+        <!-- /main content -->
+
+    </div>
+    <!-- /page content -->
+
+</div>
+<!-- /page container -->
+
+</body>
+
+</html>
+

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IVR Advertising Platform</title>
+
+    <!-- Global stylesheets -->
+    <link href="../../static/fonts/fonts.css" rel="stylesheet" type="text/css">
+    <link href="../../static/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../../static/css/datepicker.css">
+    <link rel="stylesheet" href="../../static/css/timepicker.css">
+    <link href="../../static/css/core.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/components.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/colors.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+
+    <!-- Core JS files -->
+    <script type="text/javascript" src="../../static/js/plugins/loaders/pace.min.js"></script>
+    <script type="text/javascript" src="../../static/js/core/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/js/core/libraries/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/loaders/blockui.min.js"></script>
+    <!-- /core JS files -->
+
+    <!-- Theme JS files -->
+    {#<script type="text/javascript" src="../../static/js/plugins/visualization/echarts/echarts.js"></script>#}
+    <script type="text/javascript" src="../../static/js/core/app.js"></script>
+    <script type="text/javascript" src="../../static/js/charts/highchart/reports.js"></script>
+    {#<script type="text/javascript" src="../../static/js/charts/echarts/combinations.js"></script>#}
+    <script type="text/javascript" src="../../static/js/plugins/ui/ripple.min.js"></script>
+    <!-- /theme JS files -->
+
+    <!--Charts-->
+    <script src="../../static/js/highcharts.js"></script>
+    <script src="../../static/js/exporting.js"></script>
+
+    <script src="../../static/js/angular.min.js"></script>
+    {#<script src="../../node_modules/angular-audio/app/angular.audio.js"></script>#}
+    <script src="../../bower_components/ngWebAudio/src/ngWebAudio.js"></script>
+    <script src="../../static/js/angular-animate.min.js"></script>
+    <script src="../../static/js/angular-aria.min.js"></script>
+    <script src="../../static/js/angular-messages.min.js"></script>
+    <script src="../../static/js/angular-material.min.js"></script>
+    <script src="../../static/js/application.js"></script>
+    <script src="../../static/js/bootstrap-datepicker.js"></script>
+    <script src="../../static/js/bootstrap-timepicker.js"></script>
+    <script>
+        // When the document is ready
+        $(document).ready(function () {
+
+            $('#start_date').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true
+            });
+
+            $('#end_date').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true
+            });
+
+            $('#start').datepicker({
+                format: "mm/dd/yyyy",
+                autoclose: true
+            });
+
+            $('#end').datepicker({
+                format: "mm/dd/yyyy",
+                autoclose: true
+            });
+
+        });
+    </script>
+
+</head>
+
+<body ng-app="mainApp" ng-controller="ReportsController" ng-init="init()">
+
+<!-- Main navbar -->
+<div class="navbar navbar-inverse bg-green">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ path_for('index') }}">IVR Marketing Platform</a>
+
+        <ul class="nav navbar-nav visible-xs-block">
+            <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav">
+            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a>
+            </li>
+        </ul>
+        <div class="navbar-right">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged In as
+                        <strong>{{ user.username| title }}</strong>&nbsp;&nbsp;&nbsp;
+                        <i class="icon-person"></i>
+                        <span class="visible-xs-inline-block position-right">Messages</span>
+                        <span class="note-icon-caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-content width-50">
+                        <ul class="dropdown-content-body">
+                            <ol>
+                                <a href="{{ path_for('logout') }}" class="media-heading">
+                                    <i class="icon-close2"></i>&nbsp;&nbsp;
+                                    <span class="text-muted">Sign Out</span>
+                                </a>
+                            </ol>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /main navbar -->
+
+
+<!-- Page container -->
+<div class="page-container">
+
+    <!-- Page content -->
+    <div class="page-content">
+
+        <!-- Main sidebar -->
+        <div class="sidebar sidebar-main sidebar-default">
+            <div class="sidebar-content">
+                <!-- Main navigation -->
+                <div class="sidebar-category sidebar-category-visible">
+                    <div class="category-content no-padding">
+                        <ul class="navigation navigation-main navigation-accordion">
+
+                            <!-- SIDEBAR USERPIC -->
+                            <div class="profile-userpic">
+                                <img src="/images/eti_logo.jpg" class="img-responsive" alt="">
+                            </div>
+                            <!-- SIDEBAR BUTTONS -->
+                            <div class="profile-userbuttons">
+                                <a href="{{ path_for('upload') }}">
+                                    <button type="button" class="btn btn-success btn-sm"><span
+                                                style="font-size:smaller;">Upload</span></button>
+                                </a>
+                                <a href="{{ path_for('create_campaign') }}">
+                                    <button type="button" class="btn btn-primary btn-sm"><span
+                                                style="font-size:smaller;">Campaign</span></button>
+                                </a>
+                            </div>
+                            <!-- Main -->
+                            <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i>
+                            </li>
+                            <li class="active"><a href="{{ path_for('index') }}"><i class="icon-home4"></i> <span>Dashboard</span></a>
+                            </li>
+                            {% if user.is_admin %}
+                                <li>
+                                    <a href="{{ path_for('accounts') }}"><i class="icon-users"></i>
+                                        <span>Accounts</span></a>
+                                    <ul>
+                                        <li><a href="{{ path_for('create_account') }}">Create Account </a></li>
+                                        <li><a href="{{ path_for('accounts') }}">View Accounts</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a href="{{ path_for('campaigns') }}"><i class="icon-stack2"></i> <span>Campaigns</span></a>
+                                <ul>
+                                    <li><a href="{{ path_for('create_campaign') }}">Create Campaigns </a></li>
+                                    <li><a href="{{ path_for('campaigns') }}">View Campaigns</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{{ path_for('files') }}"><i class="icon-copy"></i>
+                                    <span>File Manager</span></a>
+                                <ul>
+                                    <li><a href="{{ path_for('upload') }}">Upload Files</a></li>
+                                    <li><a href="{{ path_for('files') }}">View Files</a></li>
+
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{{ path_for('reports') }}"><i class="icon-stack"></i> <span>Reports</span></a>
+
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- /main navigation -->
+
+            </div>
+        </div>
+        <!-- /main sidebar -->
+
+        <!-- Main content -->
+        <div class="content-wrapper">
+
+            <!-- Page header -->
+            <div class="page-header page-header-default">
+                <div class="page-header-content">
+                    <div class="page-title">
+                        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Reports</span>
+                        </h4>
+                    </div>
+
+                    <div class="heading-elements">
+                        <select name="client" class="form-control" ng-model="camp_data.username" ng-change="changeActive()">
+                            <option value="all">ALL</option>
+                            {% for user in users %}
+                                <option value="{{ user.username }}">{{ user.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="breadcrumb-line">
+                    <ul class="breadcrumb">
+                        <li><a href="{{ path_for('index') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                        <li class="active">Reports</li>
+                    </ul>
+
+                    <ul class="breadcrumb-elements">
+                        {% if user.is_admin %}
+                            <li><a href="{{ path_for('settings') }}"><i class="icon-gear position-left"></i>
+                                    Settings</a></li>
+                        {% endif %}
+                        <li><a href="{{ path_for('download') }}"><i class="icon-download position-left"></i>Download</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /page header -->
+
+            <!-- Content area -->
+            <div class="content">
+
+                <div class="row">
+                    <form class="form-inline" style="zoom: 0.8; float: right; padding: 15px" ng-submit="filterReport(start, end)">
+                        <div class="form-group">
+                            <label for="impression_start">Start Date</label>
+                            <input type="text" class="form-control" name="start_date" id="start" ng-model="start" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="impression_end">End Date</label>
+                            <input type="text" class="form-control" name="end_date" id="end" ng-model="end" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                    <button class="btn btn-xs btn-success" onclick="window.location.reload()">Refresh</button>
+                </div>
+
+                <!-- Call record -->
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div ng-hide="base.has_records" class="panel-body">
+                        <div class="text-center">
+                            <h5 class="text-center text-black">All Call Records</h5>
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw fa-spin"></i><br><br>
+                            <span class="title">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="chart-container">
+                                    {#<div class="row">#}
+                                        {#<form class="form-inline" style="zoom: 0.8; float: right">#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="start_date">Start Date</label>#}
+                                                {#<input type="text" class="form-control" name="start_date"#}
+                                                       {#id="start_date">#}
+                                            {#</div>#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="end_date">End Date</label>#}
+                                                {#<input type="text" class="form-control" name="end_date" id="end_date">#}
+                                            {#</div>#}
+                                            {#<button type="submit" class="btn btn-primary">Filter</button>#}
+                                        {#</form>#}
+                                    {#</div>#}
+                                    <div class="chart has-fixed-height" id="connect_pie">
+                                        <div id="camp" style="width: 100%; height: 100%; margin: 0 auto"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- impression -->
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div ng-hide="base.has_impressions" class="panel-body">
+                        <div class="text-center">
+                            <h5 class="text-center text-black">Advert Impressions</h5>
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw fa-spin"></i><br><br>
+                            <span class="title">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="chart-container">
+                            {#<div class="row">#}
+                                {#<form class="form-inline" style="zoom: 0.8; float: right"#}
+                                      {#ng-submit="filterReport('camp_data.impression_data',impression_start, impression_end)">#}
+                                    {#<div class="form-group">#}
+                                        {#<label for="impression_start">Start Date</label>#}
+                                        {#<input type="text" class="form-control" name="start_date" id="impression_start"#}
+                                               {#ng-model="impression_start" required>#}
+                                    {#</div>#}
+                                    {#<div class="form-group">#}
+                                        {#<label for="impression_end">End Date</label>#}
+                                        {#<input type="text" class="form-control" name="end_date" id="impression_end"#}
+                                               {#ng-model="impression_end" required>#}
+                                    {#</div>#}
+                                    {#<button type="submit" class="btn btn-primary">Filter</button>#}
+                                {#</form>#}
+                            {#</div>#}
+                            <div class="chart has-fixed-height" id="line_bar">
+                                <div id="impression" style="width: 100%; height: 100%; margin: 0 auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- subscribed -->
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel-body" ng-hide="base.has_subscribed">
+                        <div class="text-center">
+                            <h5 class="text-center text-black">Subscription Attempts</h5>
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw fa-spin"></i><br><br>
+                            <span class="title">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="chart-container">
+                                    {#<div class="row">#}
+                                        {#<form class="form-inline" style="zoom: 0.8; float: right">#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="start_date">Start Date</label>#}
+                                                {#<input type="text" class="form-control" name="start_date"#}
+                                                       {#id="start_date">#}
+                                            {#</div>#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="end_date">End Date</label>#}
+                                                {#<input type="text" class="form-control" name="end_date" id="end_date">#}
+                                            {#</div>#}
+                                            {#<button type="submit" class="btn btn-primary">Filter</button>#}
+                                        {#</form>#}
+                                    {#</div>#}
+                                    <div class="chart has-fixed-height" id="connect_pie">
+                                        <div id="subscribed" style="width: 100%; height: 100%; margin: 0 auto"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- confirmed -->
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div ng-hide="base.has_confirmed" class="panel-body">
+                        <div class="text-center">
+                            <h5 class="text-center text-black">Subscription Confirmation</h5>
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw fa-spin"></i><br><br>
+                            <span class="title">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="chart-container">
+                                    {#<div class="row">#}
+                                        {#<form class="form-inline" style="zoom: 0.8; float: right">#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="start_date">Start Date</label>#}
+                                                {#<input type="text" class="form-control" name="start_date"#}
+                                                       {#id="start_date">#}
+                                            {#</div>#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="end_date">End Date</label>#}
+                                                {#<input type="text" class="form-control" name="end_date" id="end_date">#}
+                                            {#</div>#}
+                                            {#<button type="submit" class="btn btn-primary">Filter</button>#}
+                                        {#</form>#}
+                                    {#</div>#}
+                                    <div class="chart has-fixed-height" id="connect_pie">
+                                        <div id="confirmed" style="width: 100%; height: 100%; margin: 0 auto"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- insufficient balance -->
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div ng-hide="base.has_insufficient" class="panel-body">
+                        <div class="text-center">
+                            <h5 class="text-center text-black">Insufficient Balance Records</h5>
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw fa-spin"></i><br><br>
+                            <span class="title">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="chart-container">
+                                    {#<div class="row">#}
+                                        {#<form class="form-inline" style="zoom: 0.8; float: right">#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="start_date">Start Date</label>#}
+                                                {#<input type="text" class="form-control" name="start_date"#}
+                                                       {#id="start_date">#}
+                                            {#</div>#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="end_date">End Date</label>#}
+                                                {#<input type="text" class="form-control" name="end_date" id="end_date">#}
+                                            {#</div>#}
+                                            {#<button type="submit" class="btn btn-primary">Filter</button>#}
+                                        {#</form>#}
+                                    {#</div>#}
+                                    <div class="chart has-fixed-height" id="connect_pie">
+                                        <div id="insufficient" style="width: 100%; height: 100%; margin: 0 auto"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- already subscribed -->
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div ng-hide="base.has_already_subscribed" class="panel-body">
+                        <div class="text-center">
+                            <h5 class="text-center text-black">Already Subscribed Records</h5>
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw fa-spin"></i><br><br>
+                            <span class="title">Loading...</span>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="chart-container">
+                                    {#<div class="row">#}
+                                        {#<form class="form-inline" style="zoom: 0.8; float: right">#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="start_date">Start Date</label>#}
+                                                {#<input type="text" class="form-control" name="start_date"#}
+                                                       {#id="start_date">#}
+                                            {#</div>#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="end_date">End Date</label>#}
+                                                {#<input type="text" class="form-control" name="end_date" id="end_date">#}
+                                            {#</div>#}
+                                            {#<button type="submit" class="btn btn-primary">Filter</button>#}
+                                        {#</form>#}
+                                    {#</div>#}
+                                    <div class="chart has-fixed-height" id="connect_pie">
+                                        <div id="subbed" style="width: 100%; height: 100%; margin: 0 auto"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- success -->
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div ng-hide="base.has_success" class="panel-body">
+                        <div class="text-center">
+                            <h5 class="text-center text-black">Successful Subscription Records</h5>
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw fa-spin"></i><br><br>
+                            <span class="title">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="chart-container">
+                                    {#<div class="row">#}
+                                        {#<form class="form-inline" style="zoom: 0.8; float: right">#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="start_date">Start Date</label>#}
+                                                {#<input type="text" class="form-control" name="start_date"#}
+                                                       {#id="start_date">#}
+                                            {#</div>#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="end_date">End Date</label>#}
+                                                {#<input type="text" class="form-control" name="end_date" id="end_date">#}
+                                            {#</div>#}
+                                            {#<button type="submit" class="btn btn-primary">Filter</button>#}
+                                        {#</form>#}
+                                    {#</div>#}
+                                    <div class="chart has-fixed-height" id="connect_pie">
+                                        <div id="success" style="width: 100%; height: 100%; margin: 0 auto"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- failed -->
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div ng-hide="base.has_failed" class="panel-body">
+                        <div class="text-center">
+                            <h5 class="text-center text-black">Failed Subscription Records</h5>
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw fa-spin"></i><br><br>
+                            <span class="title">Loading...</span>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="chart-container">
+                                    {#<div class="row">#}
+                                        {#<form class="form-inline" style="zoom: 0.8; float: right">#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="start_date">Start Date</label>#}
+                                                {#<input type="text" class="form-control" name="start_date"#}
+                                                       {#id="start_date">#}
+                                            {#</div>#}
+                                            {#<div class="form-group">#}
+                                                {#<label for="end_date">End Date</label>#}
+                                                {#<input type="text" class="form-control" name="end_date" id="end_date">#}
+                                            {#</div>#}
+                                            {#<button type="submit" class="btn btn-primary">Filter</button>#}
+                                        {#</form>#}
+                                    {#</div>#}
+                                    <div class="chart has-fixed-height" id="connect_pie">
+                                        <div id="failed" style="width: 100%; height: 100%; margin: 0 auto"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /line and bar combination -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

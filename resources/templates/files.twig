@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IVR Marketing Platform</title>
+
+    <!-- Global stylesheets -->
+    <link href="../../static/fonts/fonts.css" type="text/css">
+    <link href="../../static/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/core.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/components.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/colors.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+
+    <!-- Core JS files -->
+    <script type="text/javascript" src="../../static/js/plugins/loaders/pace.min.js"></script>
+    <script type="text/javascript" src="../../static/js/core/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/js/core/libraries/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/loaders/blockui.min.js"></script>
+    <!-- /core JS files -->
+
+    <script src="../../static/js/angular.min.js"></script>
+    <script src="../../static/js/angular-animate.min.js"></script>
+    <script src="../../static/js/angular-aria.min.js"></script>
+    <script src="../../static/js/angular-messages.min.js"></script>
+    <script src="../../static/js/angular-material.min.js"></script>
+    {#<script src="../../node_modules/angular-audio/app/angular.audio.js"></script>#}
+    <script src="../../bower_components/ngWebAudio/src/ngWebAudio.js"></script>
+    <script src="../../static/js/application.js"></script>
+
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="../../static/js/plugins/tables/datatables/datatables.min.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/forms/selects/select2.min.js"></script>
+    <script type="text/javascript" src="../../static/js/core/app.js"></script>
+    <script type="text/javascript" src="../../static/js/pages/datatables_basic.js"></script>
+    <script type="text/javascript" src="../../static/js/plugins/ui/ripple.min.js"></script>
+</head>
+
+<body ng-app="mainApp">
+
+<!-- Main navbar -->
+<div class="navbar navbar-inverse bg-green">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ path_for('index') }}">IVR Marketing Platform</a>
+
+        <ul class="nav navbar-nav visible-xs-block">
+            <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav">
+            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a>
+            </li>
+        </ul>
+        <div class="navbar-right">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged In as <strong>{{ username| title }}</strong>&nbsp;&nbsp;&nbsp;
+                        <i class="icon-person"></i>
+                        <span class="note-icon-caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-content width-50">
+                        <ul class="dropdown-content-body">
+                            <ol>
+                                <a href="{{ path_for('logout') }}" class="media-heading">
+                                    <i class="icon-close2"></i>&nbsp;&nbsp;
+                                    <span class="text-muted">Sign Out</span>
+                                </a>
+                            </ol>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /main navbar -->
+
+
+<!-- Page container -->
+<div class="page-container" ng-controller="FileCtrl" ng-init="init({{ files }}, '{{ username }}')">
+
+    <!-- Page content -->
+    <div class="page-content">
+
+        <!-- Main sidebar -->
+        <div class="sidebar sidebar-main sidebar-default">
+            <div class="sidebar-content">
+                <!-- Main navigation -->
+                <div class="sidebar-category sidebar-category-visible">
+                    <div class="category-content no-padding">
+                        <ul class="navigation navigation-main navigation-accordion">
+
+                            <!-- SIDEBAR USERPIC -->
+                            <div class="profile-userpic">
+                                <img src="/images/eti_logo.jpg" class="img-responsive" alt="">
+                            </div>
+                            <!-- SIDEBAR BUTTONS -->
+                            <div class="profile-userbuttons">
+                                <a href="{{ path_for('upload') }}"><button type="button" class="btn btn-success btn-sm"><span style="font-size:smaller;">Upload</span></button></a>
+                                <a href="{{ path_for('create_campaign') }}"><button type="button" class="btn btn-primary btn-sm"><span style="font-size:smaller;">Campaign</span></button></a>
+                            </div>
+
+                            <!-- Main -->
+                            <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i>
+                            </li>
+                            <li class="active"><a href="{{ path_for('index') }}"><i class="icon-home4"></i> <span>Dashboard</span></a>
+                            </li>
+                            {% if user.is_admin %}
+                                <li>
+                                    <a href="{{ path_for('accounts') }}"><i class="icon-users"></i>
+                                        <span>Accounts</span></a>
+                                    <ul>
+                                        <li><a href="{{ path_for('create_account') }}">Create Account </a></li>
+                                        <li><a href="{{ path_for('accounts') }}">View Accounts</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a href="#"><i class="icon-stack2"></i> <span>Campaigns</span></a>
+                                <ul>
+                                    <li><a href="{{ path_for('create_campaign') }}">Create Campaigns </a></li>
+                                    <li><a href="{{ path_for('campaigns') }}">View Campaigns</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon-copy"></i> <span>File Manager</span></a>
+                                <ul>
+                                    <li><a href="{{ path_for('upload') }}">Upload Files</a></li>
+                                    <li><a href="{{ path_for('files') }}">View Files</a></li>
+
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{{ path_for('reports') }}"><i class="icon-stack"></i> <span>Reports</span></a>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /main navigation -->
+            </div>
+        </div>
+        <!-- /main sidebar -->
+
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <!-- Page header -->
+            <div class="page-header page-header-default">
+                <div class="page-header-content">
+                    <div class="page-title">
+                        <h4><i class="icon-arrow-left52 position-left"></i> <span
+                                    class="text-semibold">File Manager</span></h4>
+                    </div>
+                    <div class="heading-elements">
+                        <select name="client" class="form-control" ng-model="username" ng-change="changeActive()">
+                            <option value="all">ALL</option>
+                            {% for user in users %}
+                                <option value="{{ user.username }}">{{ user.username }}</option>
+                            {% endfor %}
+                        </select>
+                        {#<div class="heading-btn-group">#}
+                            {#<a class="btn btn-link btn-float text-size-small has-text" ng-class="all ? 'selected' : ''"#}
+                               {#ng-click="changeActive('all')"><i class="icon-bars-alt text-primary"></i><span>All</span></a>#}
+                            {#<a class="btn btn-link btn-float text-size-small has-text"#}
+                               {#ng-class="etisalat ? 'selected' : ''" ng-click="changeActive('etisalat')"><img#}
+                                        {#src="/images/etisalat.png"/><span></span></a>#}
+                            {#<a class="btn btn-link btn-float text-size-small has-text" ng-class="tm30 ? 'selected' : ''"#}
+                               {#ng-click="changeActive('tm30')"><img src="/images/tm.png"/>#}
+                                {#<span></span></a>#}
+                        {#</div>#}
+                    </div>
+                </div>
+
+                <div class="breadcrumb-line">
+                    <ul class="breadcrumb">
+                        <li><a href="{{ path_for('index') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                        <li><a href="{{ path_for('files') }}">File Manager</a></li>
+                        <li class="active">View Files</li>
+                    </ul>
+
+                    <ul class="breadcrumb-elements">
+                        {#<li><a href=""><i class="icon-comment-discussion position-left"></i> Support</a></li>#}
+                        {% if user.is_admin %}
+                        <li><a href="{{ path_for('settings') }}"><i class="icon-gear position-left"></i> Settings</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <!-- /page header -->
+
+
+            <!-- Content area -->
+            <div class="content md-padding" id="popupContainer" ng-cloak>
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <h5 class="panel-title"><strong>Uploaded Audio Files</strong></h5>
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="reload"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <table class="table datatable-scroll-y" width="100%">
+                        <thead>
+                        <tr>
+                            <th><strong>Name</strong></th>
+                            <th></th>
+                            <th><strong>Tag</strong></th>
+                            <th>Size <strong>(kb)</strong></th>
+                            <th><strong>Duration</strong></th>
+                            <th><strong>Action</strong></th>
+                        </tr>
+                        </thead>
+                        <tbody ng-repeat="_file in data">
+                        <td>
+                            <span ng-bind="_file.name"></span><br>
+                            <em style="color: grey; font-size: 12px"><small ng-bind="_file.description"></small></em>
+                        </td>
+                        <td>
+                            <audio controls>
+                                <source src="[[ clean(_file.file_path) ]]" type="audio/wav">
+                            </audio>
+                        </td>
+                        {#<td>#}
+                            {#<button ng-click="buffer()">Buffer</button>#}
+                            {#<button ng-click="play({{ _file.file_path }})">Play</button>#}
+                            {#<button ng-click="pause()">Pause</button>#}
+                            {#<button ng-click="stop()">Stop</button>#}
+                        {#</td>#}
+                        <td ng-bind="_file.tag"></td>
+                        <td ng-bind="_file.size | number"></td>
+                        <td ng-bind="_file.duration"></td>
+                        <td>
+                            <button type="button" class="btn btn-xs btn-danger" ng-click="deleteFile(_file.id)">Delete</button>
+                        </td>
+                        </tbody>
+                        {#<tbody>#}
+                        {#{% for _file in files %}#}
+                        {#<tr>#}
+                        {#<td>{{ _file.name }}</td>#}
+                        {#<td>{{ _file.duration }}</td>#}
+                        {#<td>{{ _file.size }}</td>#}
+                        {#<td class="text-center">#}
+                        {#<ul class="icons-list">#}
+                        {#<li class="dropdown">#}
+                        {#<a href="#" class="dropdown-toggle" data-toggle="dropdown">#}
+                        {#<i class="icon-menu9"></i>#}
+                        {#</a>#}
+
+                        {#<ul class="dropdown-menu dropdown-menu-right">#}
+                        {#<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>#}
+                        {#<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>#}
+                        {#<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>#}
+                        {#</ul>#}
+                        {#</li>#}
+                        {#</ul>#}
+                        {#</td>#}
+                        {#</tr>#}
+                        {#{% endfor %}#}
+                        {#</tbody>#}
+                    </table>
+                </div>
+                <!-- /scrollable datatable -->
+
+
+                <!-- Footer -->
+                <div class="footer text-muted">
+                    &copy;copyright TM30.
+                </div>
+                <!-- /footer -->
+
+            </div>
+            <!-- /content area -->
+
+        </div>
+        <!-- /main content -->
+
+    </div>
+    <!-- /page content -->
+
+</div>
+<!-- /page container -->
+</body>
+</html>

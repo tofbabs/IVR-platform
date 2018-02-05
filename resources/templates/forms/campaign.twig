@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IVR Advertising Platform</title>
+
+    <!-- Global stylesheets -->
+    <link href="../../../static/fonts/fonts.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../../../static/css/datepicker.css">
+    <link rel="stylesheet" href="../../../static/css/timepicker.css">
+    <link href="../../../static/css/core.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/components.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/colors.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/ionicons/css/ionicons.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+</head>
+
+<body>
+
+<!-- Main navbar -->
+<div class="navbar navbar-inverse bg-green">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ path_for('index') }}">IVR Advertising Platform </a>
+
+        <ul class="nav navbar-nav visible-xs-block">
+            <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"> </i></a></li>
+            <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav">
+            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+        <div class="navbar-right">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged In as <strong>{{ user.username| title }}</strong>&nbsp;&nbsp;&nbsp;
+                        <i class="icon-person"></i>
+                        <span class="visible-xs-inline-block position-right">Messages</span>
+                        <span class="note-icon-caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-content width-50">
+                        <ul class="dropdown-content-body">
+                            <ol>
+                                <a href="{{ path_for('logout') }}" class="media-heading">
+                                    <i class="icon-close2"></i>&nbsp;&nbsp;
+                                    <span class="text-muted">Sign Out</span>
+                                </a>
+                            </ol>
+                        </ul>
+                        {#<ul class="media-list dropdown-content-body">#}
+
+                        {#<li class="media">#}
+                        {#<div class="media-left"><img src="assets/images/demo/users/face25.jpg" class="img-circle img-sm" alt=""></div>#}
+                        {#<div class="media-body">#}
+                        {#<a href="{{ path_for('logout') }}" class="media-heading">#}
+                        {#<span class="text-muted">Sign Out</span>#}
+                        {#</a>#}
+                        {#</div>#}
+                        {#</li>#}
+                        {#</ul>#}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /main navbar -->
+
+
+<!-- Page container -->
+<div class="page-container">
+
+    <!-- Page content -->
+    <div class="page-content">
+
+        <!-- Main sidebar -->
+        <div class="sidebar sidebar-main sidebar-default">
+            <div class="sidebar-content">
+                <!-- Main navigation -->
+                <div class="sidebar-category sidebar-category-visible">
+                    <div class="category-content no-padding">
+                        <ul class="navigation navigation-main navigation-accordion">
+
+                            <!-- SIDEBAR USERPIC -->
+                            <div class="profile-userpic">
+                                <img src="/images/eti_logo.jpg" class="img-responsive" alt=""> 
+                            </div>
+                            <!-- SIDEBAR BUTTONS -->
+                            <div class="profile-userbuttons">
+                                <a href="{{ path_for('upload') }}"><button type="button" class="btn btn-success btn-sm"><span style="font-size:smaller;">Upload</span></button></a>
+                                <a href="{{ path_for('create_campaign') }}"><button type="button" class="btn btn-primary btn-sm"><span style="font-size:smaller;">Campaign</span></button></a>
+                            </div>
+                            
+                            <!-- Main -->
+                            <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
+                            <li class="active"><a href="{{ path_for('index') }}"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+                            {% if user.is_admin %}
+                                <li>
+                                    <a href="{{ path_for('accounts') }}"><i class="icon-users"></i>
+                                        <span>Accounts</span></a>
+                                    <ul>
+                                        <li><a href="{{ path_for('create_account') }}">Create Account </a></li>
+                                        <li><a href="{{ path_for('accounts') }}">View Accounts</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a href="{{ path_for('campaigns') }}"><i class="icon-stack2"></i> <span>Campaigns</span></a>
+                                <ul>
+                                    <li><a href="{{ path_for('create_campaign') }}">Create Campaign </a></li>
+                                    <li><a href="{{ path_for('campaigns') }}">View Campaigns</a> </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon-copy"></i> <span>File Manager</span></a>
+                                <ul>
+                                    <li><a href="{{ path_for('upload') }}">Upload Files</a></li>
+                                    <li><a href="{{ path_for('files') }}">View Files</a></li>
+
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{{ path_for('reports') }}"><i class="icon-stack"></i> <span>Reports</span></a>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /main navigation -->
+
+            </div>
+        </div>
+        <!-- /main sidebar -->
+
+
+        <!-- Main content -->
+        <div class="content-wrapper">
+
+            <!-- Page header -->
+            <div class="page-header page-header-default">
+                <div class="page-header-content">
+                    <div class="page-title">
+                        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Campaigns</span> - Create Campaign</h4>
+                    </div>
+
+                </div>
+
+                <div class="breadcrumb-line">
+                    <ul class="breadcrumb">
+                        <li><a href="{{ path_for('index') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                        <li><a href="{{ path_for('campaigns') }}">Campaigns</a></li>
+                        <li class="active">Create Campaign</li>
+                    </ul>
+
+                    <ul class="breadcrumb-elements">
+                        {#<li><a href=""><i class="icon-comment-discussion position-left"></i> Support</a></li>#}
+                        {% if user.is_admin %}
+                            <li><a href="{{ path_for('settings') }}"><i class="icon-gear position-left"></i> Settings</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <!-- /page header -->
+
+
+            <!-- Content area -->
+            <div class="content">
+
+                <!-- Form horizontal -->
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        {#<h5 class="panel-title"></h5>#}
+                        <legend class="text-bold">BASIC INPUTS</legend>
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        {% if error or campaign or files|length > 0 %}
+                        <form class="form-horizontal" action="{{ path_for('post_campaign') }}" method="post">
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Name</strong></label>
+                                    <div class="col-lg-10">
+                                        <span style="color: red;">{{ error }}</span>
+                                        <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name here" value="{{ old.name }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Description</strong></label>
+                                    <div class="col-lg-10">
+                                        <textarea rows="5" cols="5" class="form-control" placeholder="Enter description here" name="description" id="description">{{ old.description }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Start Date:</strong></label>
+                                    <div class="col-lg-10">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                {#<i class="fa fa-calendar"></i>#}
+                                                <i class="ion-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right" name="start_date"
+                                                   id="start_date">
+                                        </div>
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>End Date:</strong></label>
+                                    <div class="col-lg-10">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                {#<i class="fa fa-calendar"></i>#}
+                                                <i class="ion-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right" name="end_date"
+                                                   id="end_date">
+                                        </div>
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+
+                            </fieldset>
+
+                            {% if default %}
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Campaign Owner</strong></label>
+                                    <div class="col-lg-10">
+                                        <select name="username" class="form-control" id="username" required>
+                                            {% for account in users  %}
+                                                <option value="{{ account.username }}">{{ account.username }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            {% endif %}
+
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Select Advert File</strong></label>
+                                    <div class="col-lg-10">
+                                        <select name="file" class="form-control" id="file" {% if campaign %}disabled{% endif %} required>
+                                         {% for file in files  %}
+                                            <option value="{{ file.name }}">{{ file.name }}</option>
+                                         {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="content-group">
+                                <legend class="text-bold">CONFIGURE CALL TO ACTION</legend>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Subscription Key</strong></label>
+                                    <div class="col-lg-2">
+                                        <input type="text" name="number" id="number" maxlength="1" class="form-control" value="*" placeholder="Number" disabled>
+                                    </div>
+                                    <span class="col-sm-1"></span>
+                                    <label class="control-label col-lg-2"><strong>Action</strong></label>
+                                    <div class="col-lg-2">
+                                        <select name="value" class="form-control" id="value">
+                                            {% for option in options  %}
+                                                <option value="{{ option.value }}">{{ option.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-lg-2"><strong>Repeat Advert Key</strong></label>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="repeat_param" id="repeat_param" maxlength="1" class="form-control" value="{{ old.repeat_param }}" placeholder="Enter Repeat Advert Key here">#}
+                                    {#</div>#}
+                                    {#<span class="col-sm-1"></span>#}
+                                    {#<label class="control-label col-lg-2"><strong>Confirmation Key</strong></label>#}
+                                    {#<div class="col-lg-3">#}
+                                        {#<input type="text" name="confirm" id="confirm" maxlength="1" class="form-control" value="{{ old.confirm }}" placeholder="Enter Subscription Confirmation here">#}
+                                    {#</div>#}
+                                {#</div>#}
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Subscription Url</strong></label>
+                                    <div class="col-lg-3">
+                                        <input type="text" name="body" id="body" class="form-control" value="{{ old.body }}" placeholder="Enter subscription url here">
+                                    </div>
+                                    <label class="control-label col-sm-2"><strong>Request Method</strong></label>
+                                    <div class="col-sm-1">
+                                        <select name="request" class="form-control" id="request">
+                                            <option value='GET'>GET</option>
+                                            {#<option value='POST'>POST</option>#}
+                                        </select>
+                                    </div>
+                                    <span class="col-sm-1"></span>
+                                    <label class="control-label col-lg-1"><strong>Parameter</strong></label>
+                                    <div class="col-sm-2">
+                                        <input type="text" name="parameter" id="parameter" class="form-control" value="msisdn" placeholder="Phone/Msisdn parameter">
+                                    </div>
+                                </div>
+
+                            </fieldset>
+
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                            </div>
+                        </form>
+                        {% else %}
+                            <div class="text-center">
+                                <h2>No files Uploaded yet</h2>
+                                <small><a href="{{ path_for('upload') }}">Click here to upload files</a></small>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- /form horizontal -->
+
+                <!-- Footer -->
+                <div class="footer text-muted">
+                    &copy;copyright TM30.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Core JS files -->
+<script type="text/javascript" src="../../../static/js/plugins/loaders/pace.min.js"></script>
+<script type="text/javascript" src="../../../static/js/core/libraries/jquery.min.js"></script>
+<script type="text/javascript" src="../../../static/js/core/libraries/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../../static/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+
+<script src="../../../static/js/angular.min.js"></script>
+{#<script src="../../../node_modules/angular-audio/app/angular.audio.js"></script>#}
+<script src="../../../bower_components/ngWebAudio/src/ngWebAudio.js"></script>
+<script src="../../../static/js/application.js"></script>
+
+<!-- Theme JS files -->
+<script type="text/javascript" src="../../../static/js/plugins/forms/styling/uniform.min.js"></script>
+<script type="text/javascript" src="../../../static/js/core/app.js"></script>
+<script type="text/javascript" src="../../../static/js/pages/form_inputs.js"></script>
+<script type="text/javascript" src="../../../static/js/plugins/ui/ripple.min.js"></script>
+<script src="../../../static/js/bootstrap-datepicker.js"></script>
+<script src="../../../static/js/bootstrap-timepicker.js"></script>
+<script>
+    // When the document is ready
+    $(document).ready(function () {
+
+        $('#start_date').datepicker({
+            format: "dd/mm/yyyy"
+        });
+
+        $('#end_date').datepicker({
+            format: "dd/mm/yyyy"
+        });
+
+        $('#scheduled_time').timepicker();
+
+        $('#number, #repeat_param').on('keyup', function () {
+            if ($('#number').val() != $('#repeat_param').val()) {
+                $('#message').html('Correct').css('color', 'green');
+            } else
+                $('#message').html('Invalid, Check Key Selected').css('color', 'red');
+        });
+
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        var next = 1;
+        $(".add-more").click(function(e){
+            e.preventDefault();
+            var addto = "#field" + next;
+            var addRemove = "#field" + (next);
+            next = next + 1;
+            var newIn = '<input autocomplete="off" class="input form-control" id="field' + next + '" name="field' + next + '" type="text">';
+            var newInput = $(newIn);
+            var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
+            var removeButton = $(removeBtn);
+            $(addto).after(newInput);
+            $(addRemove).after(removeButton);
+            $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+            $("#count").val(next);
+
+            $('.remove-me').click(function(e){
+                e.preventDefault();
+                var fieldNum = this.id.charAt(this.id.length-1);
+                var fieldID = "#field" + fieldNum;
+                $(this).remove();
+                $(fieldID).remove();
+            });
+        });
+    });
+</script>
+<!-- /theme JS files -->
+</body>
+
+</html>
