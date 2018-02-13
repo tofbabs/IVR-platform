@@ -1,9 +1,0 @@
-{
-  "apps": [{
-    "name": "worker",
-    "script": "/opt/app/app.js",
-    "env": {
-      "production": true
-    }
-  }]
-}

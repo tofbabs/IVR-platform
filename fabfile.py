@@ -1,17 +1,20 @@
-# from __future__ import with_statement
-from getpass import getpass
-from fabric.api import local, abort, settings, run, env, cd, sudo
+from fabric.api import local, abort, run, roles, cd, env, sudo, lcd, env, settings
 from fabric.contrib.console import confirm
 
 env.roledefs = {
-    'test': ['localhost'],
-    'prod': ['tm30@192.168.0.115']
+    'local': ['localhost'],
+    'production': ['root@95.85.60.61']
 }
 
-env.roledefs['all'] = [h for r in env.roledefs.values() for h in r]
+env.roledefs['all'] = [i for j in env.roledefs.values() for i in j]
 
 
 def commit(message='updating...'):
+    """
+    commit changes to staging area
+    :param message:
+    :return:
+    """
     local("git add --all")
     with settings(warn_only=True):
         result = local("git commit -m '%s'" % message, capture=True)
@@ -27,66 +30,42 @@ def pull():
     local("git pull")
 
 
-def update_environs(message='updating...'):
-    """
-    update local working environment
-    :return:
-    """
-    commit(message)
-    local("git pull")
-
-
-def update_prod(message='updating...'):
-    """
-    update local working environment
-    :return:
-    """
-    with settings(warn_only=True, password='kaadie.com'):
-        with cd('/opt/IVR'):
-            run("git add --all")
-            result = run("git commit -m '%s'" % message, warn_only=True)
-            if result.failed and not confirm("Tests failed. Continue anyway?"):
-                abort("Aborting at your behest")
-            run("git pull")
-
-
-def push(message='updating...'):
+def push(message='updating...', branch='master', should_commit=True):
     """
     push changes
+    :param message
     :return:
     """
-    commit(message)
-    local("git push")
+    if should_commit is True:
+        commit(message)
+    local("git push -u origin %s" % branch)
 
 
-def start_services(service_paths=list()):
+def update_static(python_path='/usr/bin/python', manage_path='manage.py'):
     """
-    restart a system service
-    :param service_paths:
+    update static
+    :param python_path:
+    :param manage_path:
     :return:
     """
-    for service_path in service_paths:
-        sudo('%s start' % service_path)
+    run('%s %s collectstatic' % (python_path, manage_path))
 
 
-def stop_service(service_paths=list()):
+def migrate_database(python_path='/usr/bin/python', manage_path='manage.py'):
     """
-    restart a system service
-    :param service_paths:
+    migrate database
     :return:
     """
-    for service_path in service_paths:
-        sudo('%s stop' % service_path)
+    run('%s %s makemigrations --merge' % (python_path, manage_path))
+    run('%s %s migrate' % (python_path, manage_path))
 
 
-def restart_service(service_paths=list()):
+def ondulate_services(service_paths=list(), cmd='restart'):
     """
-    restart a system service
-    :param service_path:
-    :return:
+    restart list of services
     """
-    for service_path in service_paths:
-        sudo('%s restart' % service_path)
+    for _path in service_paths:
+        sudo('/usr/sbin/service %s %s' % (_path, cmd))
 
 
 def deploy():
@@ -94,5 +73,46 @@ def deploy():
     update production environment
     :return:
     """
-    with cd('/opt/IVR'):
+    with cd('/opt/mindcure'):
         sudo('git pull')
+        run('. venv/bin/activate')
+        ondulate_services(['uwsgi', 'nginx'])
+
+
+def static_deploy():
+    """
+    update production environment
+    :return:
+    """
+    with cd('/opt/mindcure'):
+        sudo('git pull')
+        sudo('. venv/bin/activate')
+        update_static(python_path='/opt/mindcure/venv/bin/python')
+        ondulate_services(['uwsgi', 'nginx'])
+
+
+def full_deploy():
+    """
+    deploy major changes to production, including model changes
+    :return:
+    """
+    with cd('/opt/mindcure'):
+        sudo('git pull')
+        run('. venv/bin/activate')
+        sudo('pip install -r requirements.txt')
+        update_static(python_path='/opt/mindcure/venv/bin/python')
+        migrate_database(python_path='/opt/mindcure/venv/bin/python')
+        ondulate_services(['uwsgi', 'nginx'])
+
+
+def script(variable="shell"):
+    """
+    manage.py scripts
+    :return:
+    """
+    local("python manage.py %s" % variable)
+
+
+def server():
+    script('runserver')
+
